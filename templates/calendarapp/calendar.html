@@ -126,9 +126,9 @@
               $('#ProductForm').trigger("reset");
               document.getElementById('modalClose3').disabled = true;
               const dateControl = document.querySelector('#id_start_time');
-              dateControl.value = arg.startStr.replace('+01:00', '');
+              dateControl.value = arg.startStr.substring(0, arg.startStr.length - 6);
               const dateControl2 = document.querySelector('#id_end_time');
-              dateControl2.value = arg.endStr.replace('+01:00', '');
+              dateControl2.value = arg.endStr.substring(0, arg.endStr.length - 6);
             } else  {
               calendar.changeView('timeGridDay', arg.start);
             }   
