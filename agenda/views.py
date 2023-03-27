@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.template import Template , Context
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_protect
@@ -119,5 +119,21 @@ def deleteevent(request):
     event = Events.objects.get(id=id)
     event.delete()
     return JsonResponse({'event': 'success'})
+
+@login_required
+def profile(request):
+    return render(request, 'profile.html')
+
+@csrf_protect
+def saveprofile(request, id):
+    data = User.objects.get(id=id)
+    data.first_name = request.POST['first_name']
+    data.last_name = request.POST['last_name']
+    data.email = request.POST['email']
+    if request.POST['password']:
+        data.password = password=make_password(request.POST['password'])
+    data.save()
+    messages.success(request, "Dati salvati con successo.")
+    return redirect('/profile')
 
 

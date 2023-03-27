@@ -13,4 +13,6 @@ urlpatterns = [
     path("getevents/", views.getevents, name="getevents"),
     path("editevent/", views.editevent, name="editevent"),
     path("deleteevent/", views.deleteevent, name="deleteevent"),
+    path('profile/', views.profile, name='profile'),
+    path('saveprofile/<int:id>', views.saveprofile, name='saveprofile'),
 ]
