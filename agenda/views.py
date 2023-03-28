@@ -136,4 +136,65 @@ def saveprofile(request, id):
     messages.success(request, "Dati salvati con successo.")
     return redirect('/profile')
 
+@login_required
+def users(request):    
+    return render(request, 'users.html', {'users': users})
+
+@csrf_protect
+def ausers(request):
+    result_list = list(User.objects.all()\
+                .values('id',
+                        'username',
+                        'first_name',
+                        'last_name',
+                        'email',
+                        'is_staff',
+                       ))  
+    return JsonResponse(result_list, safe=False)
+
+@csrf_protect
+def storeuser(request):
+    myid = request.POST['id']
+    if myid:
+        data = User.objects.get(id=myid)
+        data.username = request.POST['username']
+        data.first_name = request.POST['first_name']
+        data.last_name = request.POST['last_name']
+        data.email = request.POST['email']
+        data.is_staff = request.POST['is_staff']
+        if request.POST['password']:
+            data.password = password=make_password(request.POST['password'])
+        data.save()
+    else:
+        data = User(
+                username=request.POST['username'],
+                first_name=request.POST['first_name'],
+                last_name=request.POST['last_name'],
+                email=request.POST['email'],
+                is_staff=request.POST['is_staff'],
+                password=make_password(request.POST['password']),
+            )
+        data.save()
+    return JsonResponse({'data': 'success'})
+
+
+@csrf_protect
+def edituser(request, id):
+    member = User.objects.get(id=id)
+    member_dict = {
+        "id": member.id,
+        "username": member.username,
+        "first_name": member.first_name,
+        "last_name": member.last_name,
+        "email": member.email,
+        "is_staff": member.is_staff,
+    }
+    return JsonResponse(member_dict, safe=False)
+
+@login_required
+def deleteuser(request, id):
+    user = User.objects.get(id=id)
+    user.delete()
+    return JsonResponse({'user': 'success'})
+
 

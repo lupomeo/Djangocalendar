@@ -15,4 +15,9 @@ urlpatterns = [
     path("deleteevent/", views.deleteevent, name="deleteevent"),
     path('profile/', views.profile, name='profile'),
     path('saveprofile/<int:id>', views.saveprofile, name='saveprofile'),
+    path('users/', views.users, name='users'),
+    path('jsonresponse/ausers', views.ausers, name='ausers'),
+    path('storeuser', views.storeuser, name='storeuser'),
+    path('edituser/<int:id>', views.edituser, name='edituser'),
+    path('deleteuser/<int:id>', views.deleteuser, name='deleteuser'),
 ]
